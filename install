@@ -1,0 +1,36 @@
+#! /bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+declare -r source_dir="$(dirname "$(readlink -f "${BASH_SOURCE}")")"
+
+declare -A dotfiles=(
+  [.aliases]="${HOME}"
+  [.amzn_aliases]="${HOME}"
+  [.zshrc]="${HOME}"
+  #[.profile]="${HOME}"
+  #[.vimrc]="${HOME}"
+  #[.gitconfig]="${HOME}"
+)
+
+function install_dotfile() {
+  local dotfile="$1"
+  local install_path=$(dirname "$2/$dotfile")
+  mkdir -p "${install_path}"
+  local cmd=(ln -fs "${source_dir%%/}/files/${dotfile}" "${install_path%%/}/${dotfile}")
+  echo "!installing ${dotfile}: ${cmd[@]}"
+  "${cmd[@]}"
+}
+
+function main() {
+  for dotfile in "${!dotfiles[@]}"; do
+    install_dotfile "${dotfile}" "${dotfiles[$dotfile]}"
+  done;
+
+  sudo yum update -y
+  zsh
+}
+
+main "${@}"
