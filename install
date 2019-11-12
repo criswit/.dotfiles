@@ -24,6 +24,11 @@ declare -r PACKAGES=(
   "byobu"
   "htop"
   "vim"
+  "python3-pip"
+  "python3-venv"
+  "zip"
+  "unzip"
+  "openjdk-8-jdk"
 )
 
 function install_dotfile() {
@@ -42,6 +47,8 @@ function main() {
 
   sudo apt update -y && sudo apt upgrade -y
   sudo apt install -y "${PACKAGES[@]}"
+  pip3 install --upgrade --user awscli
+  pip3 install flake8
   bash
 }
 
