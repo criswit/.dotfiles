@@ -10,9 +10,10 @@ function include() {
 
 readonly  __ps1_reset=$(tput sgr0)
 readonly  __ps1_red=$(tput bold; tput setaf 196)
-readonly  __ps1_yellow=$(tput setaf 3)
+readonly  __ps1_yellow=$(tput setaf 11)$USER
+readonly  __ps1_grey=$(tput setaf 240)
 #readonly  __ps1_yellow=$(tput bold; tput setaf 3)
-readonly  __ps1_lightgreen=$(tput setaf 114)
+readonly  __ps1_lightgreen=$(tput setaf 34)
 readonly  __ps1_blue=$(tput bold; tput setaf 6)
 
 function __ps1_failed_exit () {
@@ -26,9 +27,9 @@ GIT_PS1_SHOWDIRTYSTATE=true
 
 PS1=''
 PS1+='\[${__ps1_red}\]$(__ps1_failed_exit)'
-PS1+='\[${__ps1_lightgreen}\]\w'
+PS1+='\[${__ps1_yellow}\] ''\[${__ps1_lightgreen}\]$ '
 PS1+='\[${__ps1_blue}\]$(__git_ps1 "[%s]")'
-PS1+='\[${__ps1_yellow}\]$'
+PS1+='\[${__ps1_grey}\]\w'
 PS1+='\[${__ps1_reset}\] '
 
 
