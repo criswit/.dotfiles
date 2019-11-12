@@ -18,11 +18,6 @@ alias df="df -kh"
 
 # Command Aliases - Directory settings
 alias d='dirs -v'
-for index ({1..9}) alias "$index"="cd +${index}"; unset index
-
-# Suffix Aliases
-alias -s html=firefox
-alias -s htm=firefox
 
 # Git Aliass
 alias g='git'

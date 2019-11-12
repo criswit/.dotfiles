@@ -85,3 +85,8 @@ export P4DIFF=colordiff
 
 # rebound in inputrc
 stty werase undef
+
+# aliases
+
+[[ -f $HOME/.aliases ]] && source $HOME/.aliases
+[[ -f $HOME/.amzn_aliases ]] && source $HOME/.amzn_aliases
