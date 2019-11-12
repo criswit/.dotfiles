@@ -13,6 +13,7 @@ declare -A dotfiles=(
   [.profile]="${HOME}"
   [.vimrc]="${HOME}"
   [.bashrc]="${HOME}"
+  [.gitconfig]="${HOME}"
   [.git-prompt.sh]="${HOME}"
   #[.gitconfig]="${HOME}"
 )

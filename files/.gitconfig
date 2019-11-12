@@ -1,0 +1,9 @@
+[core]
+	user = criswit 
+	email = whitfield.christopher.m@gmail.com 
+	editor = vim
+[user]
+	email = whitfield.christopher.m@gmail.com 
+	name = monkman 
+[include]
+	path = ~/.gitpasswd
