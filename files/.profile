@@ -86,6 +86,8 @@ export P4DIFF=colordiff
 # rebound in inputrc
 stty werase undef
 
+export PATH=$HOME/.local/bin:$PATH
+
 # aliases
 
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases

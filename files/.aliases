@@ -22,3 +22,7 @@ alias d='dirs -v'
 # Git Aliass
 alias g='git'
 alias gs='git status'
+
+# Other
+alias py='python3'
+alias x='exit'

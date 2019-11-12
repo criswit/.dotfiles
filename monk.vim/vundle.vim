@@ -4,6 +4,7 @@ if !isdirectory(expand("~/.vim/bundle"))
 endif
 
 set nocompatible
+set showcmd
 
 syntax on
 filetype off
@@ -32,6 +33,10 @@ Plugin 'google/vim-maktaba'
 Plugin 'bazelbuild/vim-bazel'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'qpkorr/vim-bufkill'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " Required for LSP
 Plugin 'prabirshrestha/async.vim'
