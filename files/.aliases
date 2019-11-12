@@ -26,3 +26,4 @@ alias gs='git status'
 # Other
 alias py='python3'
 alias x='exit'
+alias pip='pip3'

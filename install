@@ -50,6 +50,7 @@ function main() {
   sudo apt install -y "${PACKAGES[@]}"
   pip3 install --upgrade --user awscli
   pip3 install flake8
+  pip3 install --upgrade aws-shell --user
   bash
 }
 
