@@ -28,6 +28,7 @@ declare -r PACKAGES=(
   "python3-venv"
   "zip"
   "unzip"
+  "openjdk-8-jdk"
 )
 
 function install_dotfile() {
