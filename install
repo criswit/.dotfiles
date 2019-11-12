@@ -9,10 +9,20 @@ declare -r source_dir="$(dirname "$(readlink -f "${BASH_SOURCE}")")"
 declare -A dotfiles=(
   [.aliases]="${HOME}"
   [.amzn_aliases]="${HOME}"
-  [.zshrc]="${HOME}"
-  #[.profile]="${HOME}"
-  #[.vimrc]="${HOME}"
+  #[.zshrc]="${HOME}"
+  [.profile]="${HOME}"
+  [.vimrc]="${HOME}"
+  [.bashrc]="${HOME}"
+  [.git-prompt.sh]="${HOME}"
   #[.gitconfig]="${HOME}"
+)
+
+declare -r PACKAGES=(
+  #"bash-preexec"
+  #"build-essential"
+  "byobu"
+  "htop"
+  "vim"
 )
 
 function install_dotfile() {
@@ -29,8 +39,9 @@ function main() {
     install_dotfile "${dotfile}" "${dotfiles[$dotfile]}"
   done;
 
-  sudo yum update -y
-  zsh
+  sudo apt update -y && sudo apt upgrade -y
+  sudo apt install -y "${PACKAGES[@]}"
+  bash
 }
 
 main "${@}"
