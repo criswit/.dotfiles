@@ -30,6 +30,7 @@ declare -r PACKAGES=(
   "unzip"
   "openjdk-8-jdk"
   "golang-go"
+  "safe-rm"
 )
 
 function install_dotfile() {
