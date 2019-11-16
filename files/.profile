@@ -8,6 +8,9 @@ function include() {
   [[ -f "${1}" ]] && . "${1}" > /dev/null 2>&1
 }
 
+export TERM=xterm-256color
+[[ ! -z ${TMUX+x} ]] && export TERM=screen-256color
+
 readonly  __ps1_reset=$(tput sgr0)
 readonly  __ps1_red=$(tput bold; tput setaf 196)
 readonly  __ps1_yellow=$(tput setaf 11)$USER
@@ -60,15 +63,9 @@ export PATH=$PATH/bin:$PATH
 set -o vi
 export EDITOR=vim
 
-export TERM=xterm-256color
-[[ ! -z ${TMUX+x} ]] && export TERM=screen-256color
-
-
 export GOPATH="${HOME}/go"
 export PATH=$GOPATH/bin:$PATH
 
-export TERM=xterm-256color
-[[ ! -z "${TMUX+x}" ]] && export TERM=screen-256color
 
 #export KUBE_ROOT=$GOPATH/src/k8s.io/kubernetes
 
@@ -85,7 +82,7 @@ fi
 export P4DIFF=colordiff
 
 # rebound in inputrc
-stty werase undef
+#stty werase undef
 
 export PATH=$HOME/.local/bin:$PATH
 
