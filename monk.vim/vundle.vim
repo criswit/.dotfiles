@@ -41,8 +41,8 @@ Plugin 'plasticboy/vim-markdown'
 " Required for LSP
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
+Bundle 'chase/vim-ansible-yaml'
 
-Plugin 'google/vimmaktaba'
 Plugin 'google/vim-codefmt'
 call vundle#end()
 
@@ -168,8 +168,9 @@ augroup autoformat_settings
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType jslayout AutoFormatBuffer jslfmt
   autocmd FileType go AutoFormatBuffer gofmt
-  " autocmd FileType python AutoFormatBuffer pyformat
-  " autocmd FileType markdown AutoFormatBuffer mdformat
+  autocmd FileType python AutoFormatBuffer pyformat
+  autocmd FileType markdown AutoFormatBuffer mdformat
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
 augroup END
 
 augroup go_custom
@@ -199,17 +200,3 @@ set visualbell
 
 set exrc
 set secure
-
-" let g:lsc_server_commands = {
-"       \ 'c':         '/google/bin/releases/editor-devtools/ciderlsp --tooltag=vim-lsc --noforward_sync_responses',
-"       \ 'cpp':       '/google/bin/releases/editor-devtools/ciderlsp --tooltag=vim-lsc --noforward_sync_responses',
-"       \ 'go':        '/google/bin/releases/editor-devtools/ciderlsp --tooltag=vim-lsc --noforward_sync_responses',
-"       \ 'proto':     '/google/bin/releases/editor-devtools/ciderlsp --tooltag=vim-lsc --noforward_sync_responses',
-"       \ 'textproto': '/google/bin/releases/editor-devtools/ciderlsp --tooltag=vim-lsc --noforward_sync_responses',
-"       \ }
-" " Enable default mappings (support is language/LSP dependent)
-" let g:lsc_auto_map = v:true
-" nnoremap gd :<C-u>LspDefinition<CR>
-" 
-" nnoremap gd :<C-u>LspDefinition<CR>
-

@@ -31,6 +31,8 @@ declare -r PACKAGES=(
   "openjdk-8-jdk"
   "golang-go"
   "safe-rm"
+  "npm"
+  "httpie"
 )
 
 function install_dotfile() {
@@ -52,6 +54,7 @@ function main() {
   pip3 install --upgrade --user awscli
   pip3 install flake8
   pip3 install --upgrade aws-shell --user
+  vim +BundleInstall
   bash
 }
 

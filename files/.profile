@@ -90,3 +90,7 @@ export PATH=$HOME/.local/bin:$PATH
 
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases
 [[ -f $HOME/.amzn_aliases ]] && source $HOME/.amzn_aliases
+
+# homebrew for linux to path
+
+export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
