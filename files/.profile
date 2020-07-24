@@ -13,9 +13,8 @@ export TERM=xterm-256color
 
 readonly  __ps1_reset=$(tput sgr0)
 readonly  __ps1_red=$(tput bold; tput setaf 196)
-readonly  __ps1_yellow=$(tput setaf 11)$USER
 readonly  __ps1_grey=$(tput setaf 240)
-#readonly  __ps1_yellow=$(tput bold; tput setaf 3)
+readonly  __ps1_yellow=$(tput bold; tput setaf 3)
 readonly  __ps1_lightgreen=$(tput setaf 34)
 readonly  __ps1_blue=$(tput bold; tput setaf 6)
 
