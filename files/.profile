@@ -74,14 +74,18 @@ export PATH=$GOPATH/bin:$PATH
 include /etc/bash_completion.d/g4d
 include "$HOME/.bazel/bin/bazel-complete.bash"
 
-if [[ -d "${HOME}/bin/" ]]; then
-  export PATH="$HOME/bin:/Users/whitfiec/Library/Python/3.7/bin:$PATH"
-fi
+# python
+#if [[ -d "${HOME}/bin/" ]]; then
+#  export PATH="$HOME/bin:/Users/whitfiec/Library/Python/3.7/bin:$PATH"
+#fi
+PYENV_ROOT=$HOME/.pyenv
+export PATH=$PYENV_ROOT/bin:$PATH
 
 export P4DIFF=colordiff
 
 # rebound in inputrc
 #stty werase undef
+
 
 export PATH=$HOME/.local/bin:$PATH
 
@@ -93,3 +97,5 @@ export PATH=$HOME/.local/bin:$PATH
 # homebrew for linux to path
 
 export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
