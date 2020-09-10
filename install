@@ -1,37 +1,31 @@
-#! /bin/bash
+#! /usr/local/bin/bash
 
 set -o errexit
 set -o nounset
 set -o pipefail
 
-declare -r source_dir="$(dirname "$(readlink -f "${BASH_SOURCE}")")"
+declare -r source_dir="$(dirname "$(greadlink -f "${BASH_SOURCE}")")"
 
 declare -A dotfiles=(
   [.aliases]="${HOME}"
   [.amzn_aliases]="${HOME}"
-  #[.zshrc]="${HOME}"
   [.profile]="${HOME}"
   [.vimrc]="${HOME}"
   [.bashrc]="${HOME}"
   [.gitconfig]="${HOME}"
   [.git-prompt.sh]="${HOME}"
-  #[.gitconfig]="${HOME}"
 )
 
 declare -r PACKAGES=(
-  #"bash-preexec"
-  #"build-essential"
+  "bash-preexec"
+  "go"
+  "python"
   "byobu"
   "htop"
-  "vim"
-  "python3-pip"
-  "python3-venv"
+  "macvim"
   "zip"
   "unzip"
-  "openjdk-8-jdk"
-  "golang-go"
   "safe-rm"
-  "npm"
   "httpie"
 )
 
@@ -44,16 +38,39 @@ function install_dotfile() {
   "${cmd[@]}"
 }
 
+function install_awscli() {
+	curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+	sudo installer -pkg AWSCLIV2.pkg -target /
+  rm $HOME/.dotfiles/AWSCLIV2.pkg
+}
+
+function install_session_manager_plugin() {
+  curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
+  unzip sessionmanager-bundle.zip
+  sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+  rm -rf sessionmanager-bundle && rm sessionmanager-bundle.zip
+}
+
+function brew_install {
+    if brew ls --versions "$1" >/dev/null; then
+        HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade "$1"
+    else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install "$1"
+    fi
+}
+
 function main() {
   for dotfile in "${!dotfiles[@]}"; do
     install_dotfile "${dotfile}" "${dotfiles[$dotfile]}"
   done;
 
-  sudo apt update -y && sudo apt upgrade -y
-  sudo apt install -y "${PACKAGES[@]}"
-  pip3 install --upgrade --user awscli
-  pip3 install flake8
-  pip3 install --upgrade aws-shell --user
+  for pkg in "${PACKAGES[@]}"
+  do
+    :
+    brew_install $pkg
+  done
+	install_awscli
+  install_session_manager_plugin
   vim +BundleInstall
   bash
 }

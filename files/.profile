@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 # vim: set syntax=sh:
 
 #shopt -s globstar
+
+source ~/.git-prompt.sh
 
 function include() {
   [[ -f "${1}" ]] && . "${1}" > /dev/null 2>&1
@@ -50,36 +52,14 @@ function __hh_sync_history() {
 }
 precmd_functions+=(__hh_sync_history)
 
-# golang
-#GOVERSION="1.12.4"
-#export GIMME_ENV="$HOME/.gimme/envs/go${GOVERSION}.env"
-#include "${GIMME_ENV}"
-#export GOROOT="${HOME}/.gimme/versions/go${GOVERSION}.linux.amd64"
-#export GOPATH="${HOME}/go"
-
-export PATH=$PATH/bin:$PATH
 
 set -o vi
 export EDITOR=vim
 
-export GOPATH="${HOME}/go"
-export PATH=$GOPATH/bin:$PATH
 
-
-#export KUBE_ROOT=$GOPATH/src/k8s.io/kubernetes
-
-#export PATH=$HOME/google-cloud-sdk/bin:$PATH
 
 # completions
 include /etc/bash_completion.d/g4d
-include "$HOME/.bazel/bin/bazel-complete.bash"
-
-# python
-#if [[ -d "${HOME}/bin/" ]]; then
-#  export PATH="$HOME/bin:/Users/whitfiec/Library/Python/3.7/bin:$PATH"
-#fi
-PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
 
 export P4DIFF=colordiff
 
@@ -94,8 +74,17 @@ export PATH=$HOME/.local/bin:$PATH
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases
 [[ -f $HOME/.amzn_aliases ]] && source $HOME/.amzn_aliases
 
-# homebrew for linux to path
+# amzn builder tools
+export PATH=$PATH:$HOME/.toolbox/bin
 
-export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+# golang
+export GOPATH=$(go env GOPATH)
+export PATH=$PATH:$(go env GOPATH)/bin
+
+# java
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=$PATH:$JAVA_HOME/bin
+
+# python
+export PYTHON_HOME=/Users/whitfiec/Library/Python/3.8
+export PATH=$PATH:$PYTHON_HOME/bin

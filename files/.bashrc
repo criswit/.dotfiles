@@ -6,4 +6,5 @@ if [ -f /etc/bashrc ]; then
 fi
 
 source ~/.profile
-source ~/.git-prompt.sh
+
+export PATH=$HOME/.toolbox/bin:$PATH

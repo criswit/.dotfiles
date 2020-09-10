@@ -1,13 +1,3 @@
-[sic]
-
-```bash
-git clone https://github.com/criswit/.dotfiles.git
-```
-
-```bash
-cd .dotfiles
-```
-
-```bash
-./install
-```
+[macosx]
+before using, upgrade bash to 5
+https://itnext.io/upgrading-bash-on-macos-7138bd1066ba

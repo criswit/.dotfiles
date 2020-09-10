@@ -1,9 +1,7 @@
 [core]
-	user = criswit 
-	email = whitfield.christopher.m@gmail.com 
+	user = whitfiec
+	email = whitfiec@amazon.com 
 	editor = vim
 [user]
-	email = whitfield.christopher.m@gmail.com 
-	name = monkman 
-[include]
-	path = ~/.gitpasswd
+	email = whitfiec@amazon.com 
+	name = christopher whitfield

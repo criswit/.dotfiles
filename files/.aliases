@@ -1,5 +1,5 @@
 # Command Aliases - ls
-alias ls='ls --color=auto'         # Lists in one column, hidden files.
+alias ls='gls --color=auto'         # Lists in one column, hidden files.
 alias l='ls -1A'         # Lists in one column, hidden files.
 alias ll='ls -lh'        # Lists human readable sizes.
 alias lr='ll -R'         # Lists human readable sizes, recursively.
@@ -24,6 +24,5 @@ alias g='git'
 alias gs='git status'
 
 # Other
-alias py='python3'
-alias x='exit'
-alias pip='pip3'
+alias bash='/usr/local/bin/bash'
+alias rm='/usr/local/bin/safe-rm'
