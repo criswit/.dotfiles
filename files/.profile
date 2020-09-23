@@ -88,3 +88,10 @@ export PATH=$PATH:$JAVA_HOME/bin
 # python
 export PYTHON_HOME=/Users/whitfiec/Library/Python/3.8
 export PATH=$PATH:$PYTHON_HOME/bin
+
+# ruby
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# node
+export NODE_HOME=/usr/local/opt/node@12
+export PATH=$PATH:$NODE_HOME/bin

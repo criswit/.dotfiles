@@ -7,4 +7,5 @@ fi
 
 source ~/.profile
 
-export PATH=$HOME/.toolbox/bin:$PATH
+#export PATH=$HOME/.toolbox/bin:$PATH
+export PATH=/usr/local/bin/toolbox/bin:$PATH
