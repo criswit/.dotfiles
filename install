@@ -30,7 +30,8 @@ declare -r PACKAGES=(
   "rbenv"
   "ruby-build"
   "gpg"
-  "brew install node@12"
+  "node@12"
+  "jq"
 )
 
 function install_dotfile() {
