@@ -1,8 +1,5 @@
 #! /usr/local/bin/bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
 
 declare -r source_dir="$(dirname "$(greadlink -f "${BASH_SOURCE}")")"
 
@@ -32,6 +29,11 @@ declare -r PACKAGES=(
   "gpg"
   "node@12"
   "jq"
+  "socat"
+  "speedtest-cli"
+)
+
+declare -r CASK_PACKAGES=(
 )
 
 function install_dotfile() {
@@ -61,6 +63,76 @@ function brew_install {
         HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade "$1"
     else
         HOMEBREW_NO_AUTO_UPDATE=1 brew install "$1"
+    fi
+}
+
+function brew_cask_install {
+    if brew ls --versions "$1" >/dev/null; then
+        HOMEBREW_NO_AUTO_UPDATE=1 brew cask upgrade "$1"
+    else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew cask install "$1"
+    fi
+}
+
+
+function main() {
+  for dotfile in "${!dotfiles[@]}"; do
+    install_dotfile "${dotfile}" "${dotfiles[$dotfile]}"
+  done;
+
+  for pkg in "${PACKAGES[@]}"
+  do
+    :
+    brew_install $pkg
+  done
+  for pkg in "${CASK_PACKAGES[@]}"
+  do
+    :
+    brew_cask_install $pkg
+  done
+	install_awscli
+  install_session_manager_plugin
+  vim +BundleInstall
+  bash
+}
+
+main "${@}"
+
+function install_dotfile() {
+  local dotfile="$1"
+  local install_path=$(dirname "$2/$dotfile")
+  mkdir -p "${install_path}"
+  local cmd=(ln -fs "${source_dir%%/}/files/${dotfile}" "${install_path%%/}/${dotfile}")
+  echo "!installing ${dotfile}: ${cmd[@]}"
+  "${cmd[@]}"
+}
+
+function install_awscli() {
+	curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+	sudo installer -pkg AWSCLIV2.pkg -target /
+  rm $HOME/.dotfiles/AWSCLIV2.pkg
+}
+
+function install_session_manager_plugin() {
+  curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
+  unzip sessionmanager-bundle.zip
+  sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+  rm -rf sessionmanager-bundle && rm sessionmanager-bundle.zip
+}
+
+function brew_install {
+    if brew ls --versions "$1" >/dev/null; then
+        HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade "$1"
+    else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install "$1"
+    fi
+}
+
+function brew_cask_install {
+    if brew ls --versions "$1" >/dev/null; then
+        HOMEBREW_NO_AUTO_UPDATE=1 brew cask upgrade "$1"
+    else
+        HOMEBREW_NO_AUTO_UPDATE=1 brew cask install "$1"
     fi
 }
 
