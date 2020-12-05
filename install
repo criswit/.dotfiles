@@ -31,7 +31,6 @@ declare -r PACKAGES=(
   "jq"
   "socat"
   "speedtest-cli"
-  "xclip"
 )
 
 declare -r CASK_PACKAGES=(
