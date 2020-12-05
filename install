@@ -31,9 +31,11 @@ declare -r PACKAGES=(
   "jq"
   "socat"
   "speedtest-cli"
+  "xclip"
 )
 
 declare -r CASK_PACKAGES=(
+  "paw"
 )
 
 function install_dotfile() {
@@ -68,9 +70,9 @@ function brew_install {
 
 function brew_cask_install {
     if brew ls --versions "$1" >/dev/null; then
-        HOMEBREW_NO_AUTO_UPDATE=1 brew cask upgrade "$1"
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install --cask "$1"
     else
-        HOMEBREW_NO_AUTO_UPDATE=1 brew cask install "$1"
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install --cask "$1"
     fi
 }
 
