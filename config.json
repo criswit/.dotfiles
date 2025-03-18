@@ -1,0 +1,28 @@
+{
+  "apt": [
+    "neovim",
+    "qbittorrent",
+    "wezterm",
+    "jq",
+    "stow",
+    "apt-transport-https",
+    "shfmt",
+    "yt-dlp",
+    "zsh",
+    "npm",
+    "fuse"
+  ],
+  "ppa": [
+    "qbittorrent-team/qbittorrent-stable",
+    "neovim-ppa/unstable"
+  ],
+  "deb": [
+    "jellyfin",
+    "code",
+    "protonvpn"
+  ],
+  "code": [
+    "vscodevim.vim",
+    "saoudrizwan.claude-dev"
+  ]
+}

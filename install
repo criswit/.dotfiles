@@ -1,0 +1,27 @@
+#!/bin/bash
+
+SCRIPT_NAME="$0"
+SCRIPT_ABSOLUTE_PATH="$(readlink -f -- "$SCRIPT_NAME")"
+DOTFILES_DIR="$(dirname "$SCRIPT_ABSOLUTE_PATH")"
+
+source "$DOTFILES_DIR/lib/logger.sh"
+source "$DOTFILES_DIR/lib/utils.sh"
+
+
+main() {
+  log_info "adding ppa to apt"
+  config_install "ppa"
+  log_info "adding non-ppa repos to apt"
+  add_to_apt
+  sudo apt update
+  config_install "apt"
+  non_pkg_manager_installs
+  config_install "deb"
+  log_info "installing vscode extensions"
+  config_install "code"
+  install_go
+  #install_jetbrains_toolbox
+  install_rust
+}
+
+main "$@"
