@@ -17,33 +17,35 @@ function config_install() {
 			code --install-extension "$pkg"
 		elif [ "$1" = "ppa" ]; then
 			sudo add-apt-repository "ppa:$pkg"
+		elif [ "$1" = "font" ]; then
+			install_font "$pkg"
 		fi
 	done
 }
 
 function add_to_apt() {
-  # wezterm
-  # see https://wezterm.org/install/linux.html#installing-on-ubuntu
-  curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /etc/apt/keyrings/wezterm-fury.gpg
-  echo 'deb [signed-by=/etc/apt/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+	# wezterm
+	# see https://wezterm.org/install/linux.html#installing-on-ubuntu
+	curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /etc/apt/keyrings/wezterm-fury.gpg
+	echo 'deb [signed-by=/etc/apt/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
 }
 
 function non_pkg_manager_installs() {
-  # deb get
-  curl -sL https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get | sudo -E bash -s install deb-get
-  # nvm
-  PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash'
-  # starship
-  curl -sS https://starship.rs/install.sh | sh
+	# deb get
+	curl -sL https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get | sudo -E bash -s install deb-get
+	# nvm
+	PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash'
+	# starship
+	curl -sS https://starship.rs/install.sh | sh
 }
 
 function install_go() {
-    wget "https://dl.google.com/go/$(curl https://go.dev/VERSION?m=text | head -n1).linux-amd64.tar.gz" -O /tmp/go-linux.tar.gz
-    sudo tar -C /usr/local -xzf /tmp/go-linux.tar.gz
+	wget "https://dl.google.com/go/$(curl https://go.dev/VERSION?m=text | head -n1).linux-amd64.tar.gz" -O /tmp/go-linux.tar.gz
+	sudo tar -C /usr/local -xzf /tmp/go-linux.tar.gz
 }
 
 function install_jetbrains_toolbox() {
-  TMP_DIR="/tmp"
+	TMP_DIR="/tmp"
 	INSTALL_DIR="$HOME/.local/share/JetBrains/Toolbox/bin"
 	SYMLINK_DIR="$HOME/.local/bin"
 	log_info "### INSTALL JETBRAINS TOOLBOX ###"
@@ -74,7 +76,43 @@ function install_jetbrains_toolbox() {
 }
 
 install_rust() {
-  # SEE: https://www.rust-lang.org/tools/install
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  source "${XDG_DATA_HOME}/cargo/env"
+	# SEE: https://www.rust-lang.org/tools/install
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+}
+
+#!/bin/bash
+
+### GNOME ###
+
+function setup_gnome() {
+	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+
+	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+		"['$KEY_PATH/custom0/', '$KEY_PATH/custom1/']"
+
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH/custom0/ name "Toggle Ulauncher"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH/custom0/ command "ulauncher-toggle"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH/custom0/ binding "<Super>space"
+
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH/custom1/ name "Lock keyboard"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH/custom1/ command "/usr/bin/xtrlock"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH/custom1/ binding "<Super><Control>l"
+
+}
+
+function install_font() {
+	local version='3.3.0'
+	local fonts_dir="${HOME}/.local/share/fonts"
+	if [[ ! -d "$fonts_dir" ]]; then
+		mkdir -p "$fonts_dir"
+	fi
+	zip_file="$1".zip
+	download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/${zip_file}"
+	log_info "downloading $1 font from $download_url"
+	wget "$download_url"
+	unzip "$zip_file" -d "$fonts_dir"
+	rm "$zip_file"
+	find "$fonts_dir" -name '*Windows Compatible*' -delete
+
+	fc-cache -fv
 }

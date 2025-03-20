@@ -7,21 +7,38 @@ DOTFILES_DIR="$(dirname "$SCRIPT_ABSOLUTE_PATH")"
 source "$DOTFILES_DIR/lib/logger.sh"
 source "$DOTFILES_DIR/lib/utils.sh"
 
-
 main() {
-  log_info "adding ppa to apt"
-  config_install "ppa"
-  log_info "adding non-ppa repos to apt"
-  add_to_apt
-  sudo apt update
-  config_install "apt"
-  non_pkg_manager_installs
-  config_install "deb"
-  log_info "installing vscode extensions"
-  config_install "code"
-  install_go
-  #install_jetbrains_toolbox
-  install_rust
+
+	log_info "adding ppa to apt"
+	config_install "ppa"
+
+	log_info "adding non-ppa repos to apt"
+	add_to_apt
+	sudo apt update
+	config_install "apt"
+	non_pkg_manager_installs
+	config_install "deb"
+
+	log_info "installing vscode extensions"
+	config_install "code"
+
+	log_info "installing go..."
+	install_go
+
+	log_info "installing jetbrains toolbox..."
+	install_jetbrains_toolbox
+
+	log_info "installing rust..."
+	install_rust
+
+	log_info "performing additional gnome setups..."
+	setup_gnome
+
+	log_info "installing fonts..."
+	config_install "font"
+
+	log_info "stowing files..."
+	stow -t ~ files --dotfiles
 }
 
 main "$@"
