@@ -1,2 +1,4 @@
 alias g='git'
 alias ls='ls --color=auto'
+alias v='nvim'
+alias vim='nvim'

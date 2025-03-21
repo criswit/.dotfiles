@@ -1,35 +1,36 @@
 {
-	"apt": [
-	"neovim",
-	"qbittorrent",
-	"wezterm",
-	"jq",
-	"stow",
-	"apt-transport-https",
-	"shfmt",
-	"yt-dlp",
-	"zsh",
-	"npm",
-	"fuse",
-	"sqlitebrowser",
-	"xtrlock"
-	],
-	"ppa": [
-	"qbittorrent-team/qbittorrent-stable",
-	"neovim-ppa/unstable",
-	"linuxgndu/sqlitebrowser"
-	],
-	"deb": [
-	"jellyfin",
-	"code",
-	"protonvpn"
-	],
-	"code": [
-	"vscodevim.vim",
-	"saoudrizwan.claude-dev"
-	],
-	"font": [
-	"JetBrainsMono",
-	"Meslo"
-	]
+    "apt": [
+        "neovim",
+        "qbittorrent",
+        "wezterm",
+        "jq",
+        "stow",
+        "apt-transport-https",
+        "shfmt",
+        "yt-dlp",
+        "zsh",
+        "npm",
+        "fuse",
+        "sqlitebrowser",
+        "xtrlock"
+    ],
+    "ppa": [
+        "qbittorrent-team/qbittorrent-stable",
+        "neovim-ppa/unstable",
+        "linuxgndu/sqlitebrowser"
+    ],
+    "deb": [
+        "jellyfin",
+        "code",
+        "protonvpn",
+        "balena-etcher"
+    ],
+    "code": [
+        "vscodevim.vim",
+        "saoudrizwan.claude-dev"
+    ],
+    "font": [
+        "JetBrainsMono",
+        "Meslo"
+    ]
 }
