@@ -1,0 +1,22 @@
+[Unit]
+Description=Rofi Clipboard Monitor
+Documentation=https://github.com/christopher/.dotfiles
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/rofi-clipboard --monitor
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# Security settings
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/share/rofi-clipboard
+
+[Install]
+WantedBy=default.target

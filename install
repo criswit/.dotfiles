@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "${DOTFILES_DIR}/lib/installer_functions.sh"
+source "${DOTFILES_DIR}/lib/deploy_functions.sh"
+
+# Install essential packages (curl, wget, etc.)
+install_essential_packages
+
+# Install general packages (stow, etc.)
+install_general_packages
+
+# Install desktop packages (caffeine, etc.)
+install_desktop_packages
+
+# Add PPA repositories and install PPA packages
+add_ppa_repositories
+install_ppa_packages
+
+# Install external repositories (ProtonVPN, Docker, etc.)
+install_external_repos
+
+# Configure Docker after installation
+install_docker
+
+# Install deb-get and deb-get packages
+install_deb_get
+install_deb_get_packages
+
+# Install VSCode extensions (requires VSCode from deb-get)
+if command -v code >/dev/null 2>&1; then
+	install_vscode_extensions
+else
+	log_info "vscode not installed - skipping extension installation"
+fi
+
+# Install mise for managing development tools
+install_mise
+
+# Install uv for Python package management
+install_uv
+
+# Install WezTerm terminal emulator
+install_wezterm
+
+# Install Yubico Authenticator
+install_yubico_authenticator
+
+# Install JetBrains Toolbox if enabled
+if [[ $(get_from_config "tools.jetbrains-toolbox.enabled" "elements") == "true" ]]; then
+	install_jetbrains_toolbox
+else
+	log_info "JetBrains Toolbox installation disabled in config"
+fi
+
+# Install custom applications (Cursor, etc.)
+install_custom_apps
+
+# Install Nerd Font for terminal icons
+source "${DOTFILES_DIR}/lib/install_nerd_font.sh"
+install_nerd_font
+
+# Install GNOME extensions
+source "${DOTFILES_DIR}/lib/install_gnome_extensions.sh"
+install_gnome_extensions
+
+# Configure GNOME desktop settings
+source "${DOTFILES_DIR}/lib/gnome_config.sh"
+configure_gnome_all
+
+# Deploy all dotfiles (stow packages, copy files, templates)
+deploy_all
+
+# Setup and configure services (Jellyfin, etc.)
+source "${DOTFILES_DIR}/lib/service_manager.sh"
+setup_all_services
+
+# Install all tools defined in .mise.toml
+if command -v mise >/dev/null 2>&1; then
+	log_section "installing mise-managed tools"
+	mise install
+	log_info "mise tools installation complete"
+	
+	# Reload mise environment to make newly installed tools available
+	eval "$(mise activate bash)"
+	log_debug "reloaded mise environment"
+fi
+
+# Install global npm packages (requires Node.js from mise)
+if command -v npm >/dev/null 2>&1; then
+	install_npm_global_packages
+else
+	log_info "npm not found - skipping global npm packages"
+	log_info "run 'install_npm_global_packages' after Node.js is installed"
+fi
+
+# Cleanup temporary log files
+cleanup_temp_logs() {
+	log_section "cleaning up temporary files"
+	
+	# Remove wget log files
+	local wget_logs=(${DOTFILES_DIR}/wget-log*)
+	if [[ ${#wget_logs[@]} -gt 0 ]] && [[ -e "${wget_logs[0]}" ]]; then
+		log_info "removing wget log files"
+		rm -f ${DOTFILES_DIR}/wget-log*
+		log_debug "removed ${#wget_logs[@]} wget log files"
+	fi
+	
+	# Remove install.log files if they exist
+	local install_logs=(${DOTFILES_DIR}/install.log*)
+	if [[ ${#install_logs[@]} -gt 0 ]] && [[ -e "${install_logs[0]}" ]]; then
+		log_info "removing install log files"
+		rm -f ${DOTFILES_DIR}/install.log*
+		log_debug "removed ${#install_logs[@]} install log files"
+	fi
+	
+	# Remove any other temporary log files
+	# Add more cleanup patterns here as needed
+	
+	log_info "temporary files cleaned up"
+}
+
+# Run cleanup
+cleanup_temp_logs
+
+log_header "dotfiles setup complete!"

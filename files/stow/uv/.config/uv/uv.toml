@@ -1,0 +1,46 @@
+# uv global configuration
+# https://docs.astral.sh/uv/
+
+# Enable caching of package downloads
+cache-dir = "~/.cache/uv"
+
+# Use system Python installations when available
+python-preference = "system"
+
+# Compile Python bytecode for installed packages
+compile-bytecode = true
+
+# Use hardlinks when possible for better performance
+link-mode = "hardlink"
+
+# Index settings
+[[index]]
+url = "https://pypi.org/simple"
+default = true
+
+# Concurrent downloads for better performance
+concurrent-downloads = 5
+
+# Concurrent installs for better performance  
+concurrent-installs = 5
+
+# Enable progress output by default
+progress = true
+
+# Use native SSL certificates
+native-tls = false
+
+# Respect Python version files (.python-version)
+python-version-file = true
+
+# Global pip settings
+[pip]
+# Use the system Python when running `uv pip` commands
+system = false
+
+# Strict mode ensures reproducible installations
+strict = true
+
+# Tool settings for uvx/tool installations
+# Tool directory is configured via UV_TOOL_DIR environment variable
+# or defaults to ~/.local/share/uv/tools

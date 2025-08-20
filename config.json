@@ -1,0 +1,189 @@
+{
+  "gnome-extensions": [
+    "ubuntu-appindicators@ubuntu.com",
+    "blur-my-shell@aunetx",
+    "clipboard-indicator@tudmotu.com",
+    "caffeine@patapon.info",
+    "Vitals@CoreCoding.com"
+  ],
+  "ppas": ["ppa:qbittorrent-team/qbittorrent-stable"],
+  "custom-apps": ["cursor"],
+  "external-repos": {
+    "protonvpn": {
+      "gpg-key-url": "https://repo.protonvpn.com/debian/public_key.asc",
+      "repo-line": "deb [signed-by=/usr/share/keyrings/protonvpn-stable-release-keyring.gpg] https://repo.protonvpn.com/debian stable main",
+      "keyring-path": "/usr/share/keyrings/protonvpn-stable-release-keyring.gpg",
+      "packages": ["protonvpn"]
+    },
+    "jellyfin": {
+      "gpg-key-url": "https://repo.jellyfin.org/jellyfin_team.gpg.key",
+      "repo-line": "deb [signed-by=/usr/share/keyrings/jellyfin.gpg] https://repo.jellyfin.org/ubuntu noble main",
+      "keyring-path": "/usr/share/keyrings/jellyfin.gpg",
+      "packages": [
+        "jellyfin",
+        "jellyfin-web",
+        "jellyfin-server",
+        "jellyfin-ffmpeg6"
+      ]
+    }
+  },
+  "packages": {
+    "essential": ["curl", "lsb-release", "wget", "jq"],
+    "general": [
+      "stow",
+      "zsh",
+      "fonts-noto-color-emoji",
+      "fonts-firacode",
+      "cmake",
+      "rofi",
+      "pass",
+      "wl-clipboard",
+      "wtype",
+      "sqlite3",
+      "gnome-screenshot",
+      "yubikey-manager",
+      "scdaemon",
+      "libfuse2",
+      "libxi6",
+      "libxrender1",
+      "libxtst6",
+      "mesa-utils",
+      "libfontconfig1",
+      "libgtk-3-0",
+      "httpie",
+      "xtrlock",
+      "gpaste-2"
+    ],
+    "desktop": [
+      "gnome-shell-extensions",
+      "gnome-shell-extension-prefs",
+      "chrome-gnome-shell",
+      "gnome-shell-extension-manager"
+    ],
+    "deb-get": [
+      "spotify-client",
+      "code",
+      "slack-desktop",
+      "signal-desktop",
+      "dbeaver-ce"
+    ],
+    "ppa": ["qbittorrent"],
+    "npm-global": [
+      "npm-check-updates",
+      "tldr",
+      "http-server",
+      "nodemon",
+      "prettier",
+      "@anthropic-ai/claude-code",
+      "backlog.md",
+      "task-master-ai"
+    ],
+    "vscode-extensions": ["vscodevim.vim"]
+  },
+  "services": {
+    "jellyfin": {
+      "enabled": true,
+      "auto_start": true,
+      "system": {
+        "port": 8096,
+        "bind_address": "0.0.0.0",
+        "hardware_accel": "auto",
+        "media_dirs": [
+          "/home/christopher/Media/Movies",
+          "/home/christopher/Media/TV",
+          "/home/christopher/Media/Music"
+        ]
+      },
+      "backup": {
+        "enabled": true,
+        "schedule": "daily",
+        "retention_days": 7
+      }
+    }
+  },
+  "tools": {
+    "jetbrains-toolbox": {
+      "enabled": true
+    }
+  },
+  "mcp-servers": {
+    "test-filesystem": {
+      "type": "typescript",
+      "template": "filesystem",
+      "path": "/home/christopher/.mcp-servers/test-filesystem",
+      "enabled": true,
+      "env": {}
+    }
+  },
+  "gnome-settings": {
+    "appearance": {
+      "dark-mode": true,
+      "wallpaper": "~/.dotfiles/wallpapers/mister-squiggly.png",
+      "wallpaper-mode": "zoom"
+    },
+    "keyboard-shortcuts": [
+      {
+        "name": "Open Browser",
+        "binding": "<Super>b",
+        "action": "www"
+      },
+      {
+        "name": "Take Screenshot",
+        "binding": "Print",
+        "action": "screenshot"
+      },
+      {
+        "name": "Screenshot Window",
+        "binding": "<Alt>Print",
+        "action": "screenshot-window"
+      },
+      {
+        "name": "Open Files",
+        "binding": "<Super>e",
+        "command": "nautilus"
+      },
+      {
+        "name": "Open Rofi",
+        "binding": "<Super>space",
+        "command": "rofi -show drun"
+      },
+      {
+        "name": "Password Manager",
+        "binding": "<Super>p",
+        "command": "rofi-pass"
+      },
+      {
+        "name": "Lock Screen",
+        "binding": "<Super>l",
+        "command": "xtrlock"
+      }
+    ],
+    "dock": {
+      "favorite-apps": [
+        "firefox_firefox.desktop",
+        "org.wezfurlong.wezterm.desktop",
+        "code.desktop",
+        "cursor.desktop",
+        "org.gnome.Nautilus.desktop",
+        "org.gnome.SystemMonitor.desktop",
+        "spotify.desktop",
+        "signal-desktop.desktop",
+        "slack.desktop"
+      ],
+      "position": "LEFT",
+      "icon-size": 48,
+      "auto-hide": false,
+      "show-mounts": false
+    },
+    "misc": {
+      "show-battery-percentage": true,
+      "night-light": false,
+      "night-light-start": 20.0,
+      "night-light-end": 6.0,
+      "text-scaling-factor": 1.0,
+      "show-minimize-maximize": true,
+      "dynamic-workspaces": true,
+      "num-workspaces": 4
+    }
+  }
+}

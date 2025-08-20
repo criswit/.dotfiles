@@ -1,0 +1,28 @@
+# Copy mapping file
+# Format: source:destination:permissions
+# - source: relative path from files/copy/
+# - destination: absolute path (~ is expanded)
+# - permissions: optional octal permissions (e.g., 600, 644, 755)
+#
+# Lines starting with # are comments
+# Empty lines are ignored
+#
+# Examples:
+# ssh/config:~/.ssh/config:600
+# systemd/user-services/my-service.service:~/.config/systemd/user/my-service.service:644
+# scripts/backup.sh:~/.local/bin/backup:755
+
+# Claude Code slash commands
+deep-planning.md:~/.claude/commands/deep-planning.md:644
+
+# Claude agents
+../claude-agents/go-principal-engineer.md:~/.claude/agents/go-principal-engineer.md:644
+../claude-agents/chrome-extension-developer.md:~/.claude/agents/chrome-extension-developer.md:644
+../claude-agents/cloud-infra-architect.md:~/.claude/agents/cloud-infra-architect.md:644
+../claude-agents/playwright-test-engineer.md:~/.claude/agents/playwright-test-engineer.md:644
+../claude-agents/response-quality-evaluator.md:~/.claude/agents/response-quality-evaluator.md:644
+../claude-agents/salesforce-apex-lwc-developer.md:~/.claude/agents/salesforce-apex-lwc-developer.md:644
+../claude-agents/salesforce-platform-developer.md:~/.claude/agents/salesforce-platform-developer.md:644
+../claude-agents/technical-tutorial-writer.md:~/.claude/agents/technical-tutorial-writer.md:644
+../claude-agents/trajectory-analyzer.md:~/.claude/agents/trajectory-analyzer.md:644
+

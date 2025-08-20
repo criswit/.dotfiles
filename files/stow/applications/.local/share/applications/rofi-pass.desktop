@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Rofi Pass
+Comment=Password manager interface using rofi
+Exec=/home/christopher/.local/bin/rofi-pass
+Icon=dialog-password
+Terminal=false
+Type=Application
+Categories=Utility;Security;
+Keywords=password;pass;manager;rofi;
+StartupNotify=false

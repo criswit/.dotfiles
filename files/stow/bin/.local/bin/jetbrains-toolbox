@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Wrapper script for JetBrains Toolbox
+# This provides a user-level command that calls the system-installed binary
+
+if [[ -x "/opt/jetbrains-toolbox/jetbrains-toolbox" ]]; then
+    exec /opt/jetbrains-toolbox/jetbrains-toolbox "$@"
+elif [[ -x "/usr/local/bin/jetbrains-toolbox" ]]; then
+    exec /usr/local/bin/jetbrains-toolbox "$@"
+else
+    echo "JetBrains Toolbox is not installed. Please run the install script first." >&2
+    exit 1
+fi

@@ -1,0 +1,33 @@
+[tools]
+# Programming languages
+node = "lts"
+python = "3.12"
+go = "latest"
+rust = "stable"
+java = "21"
+
+# Package managers and build tools
+pnpm = "latest"
+yarn = "latest"
+poetry = "latest"
+
+# CLI tools
+neovim = "latest"
+bat = "latest"
+eza = "latest"
+fd = "latest"
+ripgrep = "latest"
+fzf = "latest"
+zoxide = "latest"
+starship = "latest"
+delta = "latest"
+lazygit = "latest"
+gh = "latest"
+jq = "latest"
+yq = "latest"
+
+[settings]
+experimental = true
+legacy_version_file = true
+always_keep_download = false
+plugin_autoupdate_last_check_duration = "7d"

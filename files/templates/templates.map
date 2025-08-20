@@ -1,0 +1,15 @@
+# Template mapping file
+# Format: template:destination:variables
+# - template: relative path from files/templates/
+# - destination: absolute path (~ is expanded)
+# - variables: comma-separated var=value pairs for substitution
+#
+# Variables in templates should be in {{VAR_NAME}} format
+# Lines starting with # are comments
+# Empty lines are ignored
+#
+# Examples:
+# gitconfig-work:~/.gitconfig-work:USER_EMAIL=work@company.com,USER_NAME=John Doe
+# database.conf:~/.config/myapp/db.conf:DB_HOST=localhost,DB_PORT=5432,DB_NAME=myapp
+# env-template:~/.env:API_KEY=secret123,ENV=development
+

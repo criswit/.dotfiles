@@ -1,0 +1,126 @@
+/**
+ * Dark theme for Rofi
+ * User: christopher
+ */
+
+* {
+    /* Dark background colors */
+    bg0:    #1e1e2e;
+    bg1:    #282839;
+    bg2:    #313244;
+    bg3:    #45475a;
+    
+    /* Foreground colors */
+    fg0:    #cdd6f4;
+    fg1:    #bac2de;
+    fg2:    #a6adc8;
+    
+    /* Accent colors */
+    accent: #89b4fa;
+    urgent: #f38ba8;
+    
+    /* Global properties */
+    background-color: transparent;
+    text-color:       @fg0;
+    
+    /* Component colors */
+    background:       @bg0;
+    foreground:       @fg0;
+    selected-bg:      @bg3;
+    selected-fg:      @accent;
+    alternate-bg:     @bg1;
+    border-color:     @bg3;
+}
+
+window {
+    background-color: @bg0;
+    border:           2px;
+    border-color:     @border-color;
+    border-radius:    10px;
+    padding:          0;
+    width:            600px;
+    location:         center;
+}
+
+mainbox {
+    background-color: transparent;
+    border:           0;
+    padding:          0;
+}
+
+inputbar {
+    background-color: @bg1;
+    text-color:       @fg0;
+    padding:          12px;
+    spacing:          12px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @accent;
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @fg0;
+    placeholder:      "Search...";
+    placeholder-color: @fg2;
+}
+
+listview {
+    background-color: transparent;
+    padding:          8px;
+    spacing:          4px;
+    cycle:            true;
+    dynamic:          true;
+    scrollbar:        false;
+}
+
+element {
+    background-color: transparent;
+    text-color:       @fg0;
+    border-radius:    6px;
+    padding:          8px 12px;
+    spacing:          8px;
+}
+
+element normal {
+    background-color: transparent;
+    text-color:       @fg0;
+}
+
+element selected {
+    background-color: @selected-bg;
+    text-color:       @selected-fg;
+}
+
+element alternate {
+    background-color: transparent;
+    text-color:       @fg0;
+}
+
+element-icon {
+    background-color: transparent;
+    text-color:       inherit;
+    size:             24px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    expand:           true;
+    horizontal-align: 0;
+    vertical-align:   0.5;
+}
+
+message {
+    background-color: @bg1;
+    border-radius:    8px;
+    padding:          8px;
+}
+
+textbox {
+    background-color: transparent;
+    text-color:       @fg0;
+}

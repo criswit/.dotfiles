@@ -1,0 +1,254 @@
+#!/usr/bin/env bash
+
+# Rofi Clipboard Manager
+# A simple clipboard history manager using rofi
+# Stores clipboard history in a local file and provides rofi interface
+
+set -euo pipefail
+
+# Configuration
+CLIPBOARD_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/rofi-clipboard"
+HISTORY_FILE="$CLIPBOARD_DIR/history"
+MAX_HISTORY="${ROFI_CLIPBOARD_MAX_HISTORY:-1000}"
+CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/rofi-clipboard.conf"
+
+# Load config if exists
+[[ -f "$CONFIG_FILE" ]] && source "$CONFIG_FILE"
+
+# Ensure clipboard directory exists
+mkdir -p "$CLIPBOARD_DIR"
+
+# Initialize history file if it doesn't exist
+[[ ! -f "$HISTORY_FILE" ]] && touch "$HISTORY_FILE"
+
+# Rofi theme
+ROFI_THEME=${ROFI_CLIPBOARD_THEME:-""}
+ROFI_OPTS="-dmenu -i -p Clipboard: -theme-str 'window {width: 60%;} listview {lines: 15;}'"
+
+# Add theme if specified
+[[ -n "$ROFI_THEME" ]] && ROFI_OPTS="$ROFI_OPTS -theme $ROFI_THEME"
+
+# Functions
+die() {
+    echo "Error: $1" >&2
+    exit 1
+}
+
+# Clean text for display (remove newlines, limit length)
+clean_for_display() {
+    local text="$1"
+    # Replace newlines with spaces, trim, and limit length
+    echo "$text" | tr '\n' ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | cut -c1-100
+}
+
+# Add to history
+add_to_history() {
+    local content="$1"
+    [[ -z "$content" ]] && return
+    
+    # Remove duplicates
+    local temp_file=$(mktemp)
+    grep -Fxv "$content" "$HISTORY_FILE" 2>/dev/null > "$temp_file" || true
+    
+    # Add new entry at the top
+    echo "$content" | cat - "$temp_file" | head -n "$MAX_HISTORY" > "$HISTORY_FILE"
+    rm -f "$temp_file"
+}
+
+# Get current clipboard content
+get_clipboard() {
+    xclip -selection clipboard -o 2>/dev/null || echo ""
+}
+
+# Set clipboard content
+set_clipboard() {
+    local content="$1"
+    echo -n "$content" | xclip -selection clipboard
+    echo -n "$content" | xclip -selection primary
+}
+
+# Monitor clipboard changes (daemon mode)
+monitor_clipboard() {
+    echo "Starting clipboard monitor daemon..."
+    local last_clip=""
+    
+    while true; do
+        local current_clip=$(get_clipboard)
+        
+        if [[ "$current_clip" != "$last_clip" ]] && [[ -n "$current_clip" ]]; then
+            add_to_history "$current_clip"
+            last_clip="$current_clip"
+        fi
+        
+        sleep 0.5
+    done
+}
+
+# Show clipboard history in rofi
+show_history() {
+    local selected
+    local entries=()
+    local display_entries=()
+    
+    # Read history into arrays
+    while IFS= read -r line; do
+        [[ -n "$line" ]] || continue
+        entries+=("$line")
+        display_entries+=("$(clean_for_display "$line")")
+    done < "$HISTORY_FILE"
+    
+    # Show nothing if history is empty
+    if [[ ${#entries[@]} -eq 0 ]]; then
+        echo "Clipboard history is empty" | eval rofi $ROFI_OPTS
+        exit 0
+    fi
+    
+    # Display in rofi
+    local index=$(printf '%s\n' "${display_entries[@]}" | eval rofi $ROFI_OPTS -format i)
+    
+    # Handle selection
+    if [[ -n "$index" ]] && [[ "$index" -ge 0 ]]; then
+        local selected_content="${entries[$index]}"
+        set_clipboard "$selected_content"
+        
+        # Optional: Type out the selection (requires xdotool)
+        if [[ "${ROFI_CLIPBOARD_TYPE:-false}" == "true" ]] && command -v xdotool &>/dev/null; then
+            sleep 0.1
+            xdotool type --clearmodifiers -- "$selected_content"
+        fi
+    fi
+}
+
+# Clear history
+clear_history() {
+    > "$HISTORY_FILE"
+    echo "Clipboard history cleared"
+}
+
+# Delete specific entry
+delete_entry() {
+    local selected
+    local entries=()
+    local display_entries=()
+    
+    # Read history into arrays
+    while IFS= read -r line; do
+        [[ -n "$line" ]] || continue
+        entries+=("$line")
+        display_entries+=("$(clean_for_display "$line")")
+    done < "$HISTORY_FILE"
+    
+    if [[ ${#entries[@]} -eq 0 ]]; then
+        echo "Clipboard history is empty"
+        exit 0
+    fi
+    
+    # Display in rofi for deletion
+    local index=$(printf '%s\n' "${display_entries[@]}" | eval rofi $ROFI_OPTS -p "Delete:" -format i)
+    
+    if [[ -n "$index" ]] && [[ "$index" -ge 0 ]]; then
+        # Remove the selected entry
+        local temp_file=$(mktemp)
+        local i=0
+        while IFS= read -r line; do
+            if [[ $i -ne $index ]]; then
+                echo "$line" >> "$temp_file"
+            fi
+            ((i++))
+        done < "$HISTORY_FILE"
+        mv "$temp_file" "$HISTORY_FILE"
+        echo "Entry deleted"
+    fi
+}
+
+# Print usage
+usage() {
+    cat << EOF
+Usage: $(basename "$0") [OPTIONS]
+
+A simple clipboard manager using rofi
+
+Options:
+    -h, --help          Show this help message
+    -m, --monitor       Run as daemon to monitor clipboard changes
+    -c, --clear         Clear clipboard history
+    -d, --delete        Delete a specific entry from history
+    -s, --show          Show clipboard history (default)
+    -a, --add TEXT      Add TEXT to clipboard and history
+    
+Environment variables:
+    ROFI_CLIPBOARD_MAX_HISTORY    Maximum history entries (default: 1000)
+    ROFI_CLIPBOARD_THEME          Rofi theme to use
+    ROFI_CLIPBOARD_TYPE           Type selection after choosing (true/false, default: false)
+    
+Configuration:
+    Config file: $CONFIG_FILE
+    History file: $HISTORY_FILE
+EOF
+}
+
+# Main
+main() {
+    local action="show"
+    
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -h|--help)
+                usage
+                exit 0
+                ;;
+            -m|--monitor)
+                action="monitor"
+                shift
+                ;;
+            -c|--clear)
+                action="clear"
+                shift
+                ;;
+            -d|--delete)
+                action="delete"
+                shift
+                ;;
+            -s|--show)
+                action="show"
+                shift
+                ;;
+            -a|--add)
+                action="add"
+                shift
+                [[ $# -eq 0 ]] && die "Missing argument for --add"
+                ADD_TEXT="$1"
+                shift
+                ;;
+            *)
+                die "Unknown option: $1"
+                ;;
+        esac
+    done
+    
+    case "$action" in
+        monitor)
+            monitor_clipboard
+            ;;
+        clear)
+            clear_history
+            ;;
+        delete)
+            delete_entry
+            ;;
+        add)
+            set_clipboard "$ADD_TEXT"
+            add_to_history "$ADD_TEXT"
+            echo "Added to clipboard and history"
+            ;;
+        show|*)
+            show_history
+            ;;
+    esac
+}
+
+# Handle interrupt
+trap 'exit 0' INT TERM
+
+# Run main
+main "$@"

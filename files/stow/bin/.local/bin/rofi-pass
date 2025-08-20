@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+
+# rofi-pass: A rofi-based interface for pass (password store)
+# Allows searching and copying passwords to clipboard
+
+# Configuration
+PASS_DIR="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
+CLIP_TIME="${PASSWORD_STORE_CLIP_TIME:-45}"
+
+# Check if pass is installed
+if ! command -v pass &> /dev/null; then
+    notify-send "Error" "pass is not installed" -u critical
+    exit 1
+fi
+
+# Get list of password entries
+get_pass_entries() {
+    cd "$PASS_DIR" || exit 1
+    find . -name "*.gpg" -type f | \
+        sed 's/^\.\///' | \
+        sed 's/\.gpg$//' | \
+        sort
+}
+
+# Main menu options with icons
+show_menu() {
+    echo " Copy Password"
+    echo " Copy Username"
+    echo " Copy OTP"
+    echo " Type Password"
+    echo " Show Entry"
+    echo "───────────────"
+    get_pass_entries
+}
+
+# Custom rofi prompt
+rofi_cmd() {
+    rofi -dmenu \
+        -i \
+        -p "$1" \
+        -theme-str 'window {width: 600px;}' \
+        -theme-str 'listview {lines: 10;}'
+}
+
+# Handle selection
+main() {
+    local selection
+    selection=$(show_menu | rofi_cmd "Pass")
+    
+    [ -z "$selection" ] && exit 0
+    
+    case "$selection" in
+        " Copy Password")
+            entry=$(get_pass_entries | rofi_cmd "Select entry")
+            [ -n "$entry" ] && pass -c "$entry"
+            ;;
+        " Copy Username")
+            entry=$(get_pass_entries | rofi_cmd "Select entry")
+            if [ -n "$entry" ]; then
+                username=$(pass show "$entry" | grep -E "^(user|username|login|email):" | head -1 | cut -d' ' -f2-)
+                if [ -n "$username" ]; then
+                    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+                        echo -n "$username" | wl-copy
+                        notify-send "Pass" "Username copied to clipboard for $CLIP_TIME seconds"
+                        (sleep "$CLIP_TIME"; wl-copy --clear) &
+                    else
+                        echo -n "$username" | xclip -selection clipboard
+                        notify-send "Pass" "Username copied to clipboard for $CLIP_TIME seconds"
+                        (sleep "$CLIP_TIME"; echo -n "" | xclip -selection clipboard) &
+                    fi
+                else
+                    notify-send "Pass" "No username found in entry" -u warning
+                fi
+            fi
+            ;;
+        " Copy OTP")
+            entry=$(get_pass_entries | rofi_cmd "Select entry")
+            if [ -n "$entry" ]; then
+                if command -v pass-otp &> /dev/null; then
+                    pass otp -c "$entry"
+                else
+                    notify-send "Pass" "pass-otp extension not installed" -u warning
+                fi
+            fi
+            ;;
+        " Type Password")
+            entry=$(get_pass_entries | rofi_cmd "Select entry")
+            if [ -n "$entry" ]; then
+                if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+                    if command -v wtype &> /dev/null; then
+                        pass show "$entry" | head -1 | tr -d '\n' | wtype -
+                    else
+                        notify-send "Pass" "wtype not installed" -u warning
+                    fi
+                else
+                    if command -v xdotool &> /dev/null; then
+                        sleep 0.5  # Small delay to switch back to target window
+                        pass show "$entry" | head -1 | tr -d '\n' | xdotool type --clearmodifiers --file -
+                    else
+                        notify-send "Pass" "xdotool not installed" -u warning
+                    fi
+                fi
+            fi
+            ;;
+        " Show Entry")
+            entry=$(get_pass_entries | rofi_cmd "Select entry")
+            if [ -n "$entry" ]; then
+                content=$(pass show "$entry")
+                echo "$content" | rofi_cmd "$entry (read-only)"
+            fi
+            ;;
+        *)
+            # Direct entry selection - copy password
+            [ -n "$selection" ] && pass -c "$selection"
+            ;;
+    esac
+}
+
+main

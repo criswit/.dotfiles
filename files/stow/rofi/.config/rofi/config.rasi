@@ -1,0 +1,114 @@
+/**
+ * Rofi configuration file
+ * Using Arthur theme for dark mode
+ */
+
+configuration {
+    /* Modes available */
+    modi: "drun,clipboard:~/.local/bin/rofi-gpaste-modi,window";
+    
+    /* UI Configuration */
+    font: "Fira Code 12";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: " Apps";
+    display-clipboard: " Clipboard";
+    display-window: " Window";
+    drun-display-format: "{name}";
+    
+    /* Matching and Sorting */
+    matching: "fuzzy";
+    sort: true;
+    case-sensitive: false;
+    
+    /* SSH settings */
+    ssh-client: "ssh";
+    ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
+    
+    /* Run settings */
+    run-command: "{cmd}";
+    run-shell-command: "{terminal} -e {cmd}";
+    
+    /* Terminal */
+    terminal: "wezterm";
+    
+    /* Window behavior */
+    window-format: "{w}    {c}   {t}";
+    click-to-exit: true;
+    
+    /* History and cache */
+    disable-history: false;
+    max-history-size: 25;
+    
+    /* Keybindings */
+    kb-primary-paste: "Control+V,Shift+Insert";
+    kb-secondary-paste: "Control+v,Insert";
+    kb-clear-line: "Control+w";
+    kb-move-front: "Control+a";
+    kb-move-end: "Control+e";
+    kb-move-word-back: "Alt+b";
+    kb-move-word-forward: "Alt+f";
+    kb-move-char-back: "Left,Control+b";
+    kb-move-char-forward: "Right,Control+f";
+    kb-remove-word-back: "Control+Alt+h,Control+BackSpace";
+    kb-remove-word-forward: "Control+Alt+d";
+    kb-remove-char-forward: "Delete,Control+d";
+    kb-remove-char-back: "BackSpace,Shift+BackSpace,Control+h";
+    kb-remove-to-eol: "Control+k";
+    kb-remove-to-sol: "Control+u";
+    kb-accept-entry: "Control+j,Control+m,Return,KP_Enter";
+    kb-accept-custom: "Control+Return";
+    kb-accept-custom-alt: "Control+Shift+Return";
+    kb-accept-alt: "Shift+Return";
+    kb-delete-entry: "Shift+Delete";
+    kb-mode-next: "Shift+Right,Control+Tab";
+    kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab";
+    kb-mode-complete: "Control+l";
+    kb-row-left: "Control+Page_Up";
+    kb-row-right: "Control+Page_Down";
+    kb-row-up: "Up,Control+p";
+    kb-row-down: "Down,Control+n";
+    kb-row-tab: "";
+    kb-page-prev: "Page_Up";
+    kb-page-next: "Page_Down";
+    kb-row-first: "Home,KP_Home";
+    kb-row-last: "End,KP_End";
+    kb-row-select: "Control+space";
+    kb-screenshot: "Alt+S";
+    kb-ellipsize: "Alt+period";
+    kb-toggle-case-sensitivity: "grave,dead_grave";
+    kb-toggle-sort: "Alt+grave";
+    kb-cancel: "Escape,Control+g,Control+bracketleft";
+    kb-custom-1: "Alt+d";
+    kb-custom-2: "Alt+c";
+    kb-custom-3: "Alt+s";
+    kb-custom-4: "Alt+4";
+    kb-custom-5: "Alt+5";
+    kb-custom-6: "Alt+6";
+    kb-custom-7: "Alt+7";
+    kb-custom-8: "Alt+8";
+    kb-custom-9: "Alt+9";
+    kb-custom-10: "Alt+0";
+    
+    /* Mouse bindings */
+    ml-row-left: "ScrollUp";
+    ml-row-right: "ScrollDown";
+    ml-row-up: "ScrollLeft";
+    ml-row-down: "ScrollRight";
+    me-select-entry: "MousePrimary";
+    me-accept-entry: "MouseDPrimary";
+    me-accept-custom: "Control+MouseDPrimary";
+    
+    timeout {
+        action: "kb-cancel";
+        delay: 0;
+    }
+    
+    filebrowser {
+        directories-first: true;
+        sorting-method: "name";
+    }
+}
+
+/* Import Arthur theme */
+@theme "arthur"
