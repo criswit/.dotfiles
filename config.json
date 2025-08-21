@@ -65,7 +65,8 @@
       "code",
       "slack-desktop",
       "signal-desktop",
-      "dbeaver-ce"
+      "dbeaver-ce",
+      "master-pdf-editor-5"
     ],
     "ppa": ["qbittorrent"],
     "npm-global": [
