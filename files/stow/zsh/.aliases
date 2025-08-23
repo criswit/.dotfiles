@@ -101,6 +101,7 @@ alias activate='source venv/bin/activate'
 alias v='nvim'
 alias dangerclaude='claude --dangerously-skip-permissions'
 alias clip='xclip -selection clipboard'
+alias taskmaster='task-master'
 
 # Add local aliases if they exist
 [[ -f "$HOME/.aliases.local" ]] && source "$HOME/.aliases.local"
