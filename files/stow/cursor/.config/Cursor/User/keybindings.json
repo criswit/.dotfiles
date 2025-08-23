@@ -6,11 +6,18 @@
     },
     {
         "key": "ctrl+a",
-        "command": "composerMode.chat",
-        "when": "!terminalFocus"
+        "command": "composerMode.chat"
     },
     {
         "key": "ctrl+e",
         "command": "composerMode.background"
+    },
+    {
+        "key": "ctrl+shift+i",
+        "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+      "key": "ctrl+w",
+      "command": "workbench.action.closeActiveEditor"
     }
 ]
