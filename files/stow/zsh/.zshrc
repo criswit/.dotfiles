@@ -19,13 +19,43 @@ setopt NO_BEEP
 
 # Completion
 autoload -Uz compinit && compinit
+zmodload zsh/complist  # Load complist module for menuselect keymap
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 
-# Key bindings
-bindkey -e  # Emacs key bindings
+# Key bindings - Vi mode
+bindkey -v  # Vi key bindings
+export KEYTIMEOUT=1  # Reduce delay when switching modes
+
+# Better vi mode search
+bindkey -M vicmd '/' history-incremental-search-backward
+bindkey -M vicmd '?' history-incremental-search-forward
+
+# Use vim keys in tab complete menu
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# Keep some useful emacs bindings in insert mode
+bindkey -M viins '^A' beginning-of-line
+bindkey -M viins '^E' end-of-line
+bindkey -M viins '^K' kill-line
+bindkey -M viins '^R' history-incremental-search-backward
+bindkey -M viins '^W' backward-kill-word
+bindkey -M viins '^U' backward-kill-line
+bindkey -M viins '^Y' yank
+
+# History search with arrow keys (works in both modes)
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
+bindkey -M vicmd '^[[A' history-search-backward
+bindkey -M vicmd '^[[B' history-search-forward
+
+# Edit line in vim with v in normal mode
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'v' edit-command-line
 
 # Load aliases
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"

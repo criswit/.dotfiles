@@ -5,6 +5,7 @@ python = "3.12"
 go = "latest"
 rust = "stable"
 java = "21"
+bun = "latest"
 
 # Package managers and build tools
 pnpm = "latest"

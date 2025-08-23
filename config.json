@@ -52,7 +52,8 @@
       "libgtk-3-0",
       "httpie",
       "xtrlock",
-      "gpaste-2"
+      "gpaste-2",
+      "chromium-browser"
     ],
     "desktop": [
       "gnome-shell-extensions",
@@ -79,7 +80,13 @@
       "backlog.md",
       "task-master-ai"
     ],
-    "vscode-extensions": ["vscodevim.vim"]
+    "vscode-extensions": [
+      "vscodevim.vim",
+      "josemurilloc.aura-spirit-dracula",
+      "nichabosh.minimalist-dark",
+      "pkief.material-icon-theme",
+      "saoudrizwan.claude-dev"
+    ]
   },
   "services": {
     "jellyfin": {
@@ -169,9 +176,10 @@
         "org.gnome.SystemMonitor.desktop",
         "spotify.desktop",
         "signal-desktop.desktop",
-        "slack.desktop"
+        "slack.desktop",
+        "chromium_chromium.desktop"
       ],
-      "position": "LEFT",
+      "position": "BOTTOM",
       "icon-size": 48,
       "auto-hide": false,
       "show-mounts": false

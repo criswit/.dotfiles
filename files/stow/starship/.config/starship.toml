@@ -1,0 +1,107 @@
+# Minimal Starship Configuration
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$character"""
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+vimcmd_symbol = '[❮](bold green)'
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style) "
+style = "cyan"
+truncation_symbol = "../"
+
+[git_branch]
+format = "[$branch]($style) "
+style = "yellow"
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "red"
+conflicted = "="
+ahead = "↑"
+behind = "↓"
+diverged = "↕"
+untracked = "?"
+stashed = "$"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+# Disable all other modules
+[aws]
+disabled = true
+
+[battery]
+disabled = true
+
+[cmd_duration]
+disabled = true
+
+[conda]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[hostname]
+disabled = true
+
+[java]
+disabled = true
+
+[jobs]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[memory_usage]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[python]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[time]
+disabled = true
+
+[username]
+disabled = true
+
+[golang]
+disabled = true
+
+[terraform]
+disabled = true
+
+[helm]
+disabled = true
+
+[php]
+disabled = true
+
+[mise]
+disabled = true

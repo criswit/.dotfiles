@@ -1,0 +1,16 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+i",
+        "command": "composerMode.agent"
+    },
+    {
+        "key": "ctrl+a",
+        "command": "composerMode.chat",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "composerMode.background"
+    }
+]
