@@ -23,6 +23,12 @@ zmodload zsh/complist  # Load complist module for menuselect keymap
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 
+# AWS CLI completions
+if command -v aws &>/dev/null; then
+  autoload bashcompinit && bashcompinit
+  complete -C aws_completer aws
+fi
+
 # Key bindings - Vi mode
 bindkey -v  # Vi key bindings
 export KEYTIMEOUT=1  # Reduce delay when switching modes

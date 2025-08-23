@@ -4,7 +4,8 @@
     "blur-my-shell@aunetx",
     "clipboard-indicator@tudmotu.com",
     "caffeine@patapon.info",
-    "Vitals@CoreCoding.com"
+    "Vitals@CoreCoding.com",
+    "arcmenu@arcmenu.com"
   ],
   "ppas": ["ppa:qbittorrent-team/qbittorrent-stable"],
   "custom-apps": ["cursor"],
@@ -85,7 +86,8 @@
       "josemurilloc.aura-spirit-dracula",
       "nichabosh.minimalist-dark",
       "pkief.material-icon-theme",
-      "saoudrizwan.claude-dev"
+      "saoudrizwan.claude-dev",
+      "mvllow.rose-pine"
     ]
   },
   "services": {
@@ -131,6 +133,11 @@
     },
     "keyboard-shortcuts": [
       {
+        "name": "Open Terminal",
+        "binding": "<Super>i",
+        "command": "wezterm start --always-new-process"
+      },
+      {
         "name": "Open Browser",
         "binding": "<Super>b",
         "action": "www"
@@ -173,7 +180,6 @@
         "code.desktop",
         "cursor.desktop",
         "org.gnome.Nautilus.desktop",
-        "org.gnome.SystemMonitor.desktop",
         "spotify.desktop",
         "signal-desktop.desktop",
         "slack.desktop",

@@ -92,6 +92,18 @@ if command -v kubectl &>/dev/null; then
     alias klog='kubectl logs'
 fi
 
+# AWS CLI aliases (if aws is installed)
+if command -v aws &>/dev/null; then
+    alias a='aws'
+    alias awsp='aws configure list-profiles'
+    alias awsl='aws configure list'
+    alias awsr='aws configure get region'
+    alias awsacc='aws configure get aws_access_key_id'
+    alias awssts='aws sts get-caller-identity'
+    alias awsreg='aws ec2 describe-regions --query "Regions[].RegionName" --output table'
+    alias awsinst='aws ec2 describe-instances --query "Reservations[].Instances[].{ID:InstanceId,Type:InstanceType,State:State.Name,Name:Tags[?Key==\`Name\`].Value|[0]}" --output table'
+fi
+
 # Python aliases
 alias py='python3'
 alias pip='pip3'

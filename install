@@ -26,6 +26,9 @@ install_external_repos
 # Configure Docker after installation
 install_docker
 
+# Install AWS CLI
+install_awscli
+
 # Install deb-get and deb-get packages
 install_deb_get
 install_deb_get_packages

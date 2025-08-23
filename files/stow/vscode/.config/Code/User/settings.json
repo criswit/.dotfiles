@@ -1,11 +1,11 @@
 {
   "window.zoomLevel": 2,
-  "workbench.colorTheme": "Aura Dracula Spirit (Synthwave)",
+  "window.restoreWindows": "none",
   "workbench.iconTheme": "material-icon-theme",
   "material-icon-theme.hidesExplorerArrows": true,
   "workbench.tree.renderIndentGuides": "none",
   "workbench.sideBar.location": "right",
-  "workbench.statusBar.visible": true, 
+  "workbench.statusBar.visible": true,
   "workbench.editor.showTabs": "single",
   "workbench.layoutControl.enabled": true,
   "editor.lineNumbers": "relative",
@@ -13,7 +13,7 @@
   "workbench.tips.enabled": false,
   "workbench.colorCustomizations": {
     "editorSuggestWidget.selectedBackground": "#231739",
-    "sideBar.background": "#191521",
+    "sideBar.background": "#a9a9a9",
     "list.activeSelectionBackground": "#231739",
     "list.inactiveSelectionBackground": "#231739",
     "list.focusBackground": "#231739",
@@ -27,7 +27,7 @@
   "editor.matchBrackets": "never",
   "editor.lightbulb.enabled": "off",
   "editor.hover.enabled": false,
-  "editor.showFoldingControls": "never",
+  "editor.showFoldingControls": "",
   "editor.scrollbar.horizontal": "hidden",
   "editor.scrollbar.vertical": "hidden",
   "editor.overviewRulerBorder": false,
@@ -89,5 +89,6 @@
   "apc.imports": [
     "file:///Users/igorbabko/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.1/dist/updateHandler.js"
   ],
-  "workbench.activityBar.location": "hidden"
+  "workbench.activityBar.location": "hidden",
+  "workbench.colorTheme": "Minimal"
 }

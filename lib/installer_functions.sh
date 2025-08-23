@@ -1353,3 +1353,124 @@ update_cursor() {
 	
 	return 0
 }
+
+install_awscli() {
+	log_section "installing AWS CLI"
+	log_debug "entering install_awscli function"
+
+	# Check if AWS CLI is already installed
+	if is_package_installed "aws"; then
+		local aws_version
+		aws_version=$(aws --version 2>/dev/null | head -n1)
+		log_info "AWS CLI is already installed: $aws_version"
+		log_debug "exiting install_awscli - already installed"
+		return 0
+	fi
+
+	# Detect system architecture
+	local arch
+	arch=$(uname -m)
+	log_info "detected system architecture: $arch"
+
+	# Set appropriate download URL based on architecture
+	local download_url=""
+	local installer_name=""
+	
+	case "$arch" in
+		"x86_64"|"amd64")
+			download_url="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+			installer_name="awscli-exe-linux-x86_64.zip"
+			log_debug "using x86_64 installer: $installer_name"
+			;;
+		"aarch64"|"arm64")
+			download_url="https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip"
+			installer_name="awscli-exe-linux-aarch64.zip"
+			log_debug "using ARM64 installer: $installer_name"
+			;;
+		*)
+			log_error "unsupported architecture: $arch"
+			log_error "AWS CLI installation is only supported on x86_64 and ARM64 systems"
+			return 1
+			;;
+	esac
+
+	# Create temporary directory for installation
+	local temp_dir="/tmp/awscli-install-$$"
+	local download_path="$temp_dir/$installer_name"
+	
+	log_info "creating temporary directory: $temp_dir"
+	mkdir -p "$temp_dir"
+	
+	# Download AWS CLI installer
+	log_info "downloading AWS CLI installer"
+	log_debug "download URL: $download_url"
+	
+	if command -v curl >/dev/null 2>&1; then
+		log_debug "using curl for download"
+		if ! curl -sL -o "$download_path" "$download_url"; then
+			log_error "failed to download AWS CLI installer using curl"
+			rm -rf "$temp_dir"
+			return 1
+		fi
+	elif command -v wget >/dev/null 2>&1; then
+		log_debug "using wget for download"
+		if ! wget -q -O "$download_path" "$download_url"; then
+			log_error "failed to download AWS CLI installer using wget"
+			rm -rf "$temp_dir"
+			return 1
+		fi
+	else
+		log_error "neither curl nor wget found - cannot download AWS CLI installer"
+		rm -rf "$temp_dir"
+		return 1
+	fi
+
+	# Verify download
+	if [[ ! -f "$download_path" ]] || [[ ! -s "$download_path" ]]; then
+		log_error "downloaded file is missing or empty"
+		rm -rf "$temp_dir"
+		return 1
+	fi
+	
+	local file_size
+	file_size=$(stat -c%s "$download_path" 2>/dev/null || stat -f%z "$download_path" 2>/dev/null || echo "unknown")
+	log_info "downloaded installer: $file_size bytes"
+
+	# Extract installer
+	log_info "extracting AWS CLI installer"
+	cd "$temp_dir"
+	if ! unzip -q "$installer_name"; then
+		log_error "failed to extract AWS CLI installer"
+		rm -rf "$temp_dir"
+		return 1
+	fi
+
+	# Run installer
+	log_info "installing AWS CLI"
+	if ! sudo ./aws/install --update; then
+		log_error "failed to install AWS CLI"
+		rm -rf "$temp_dir"
+		return 1
+	fi
+
+	# Verify installation
+	log_info "verifying AWS CLI installation"
+	if ! is_package_installed "aws"; then
+		log_error "AWS CLI installation verification failed"
+		rm -rf "$temp_dir"
+		return 1
+	fi
+
+	# Get installed version
+	local installed_version
+	installed_version=$(aws --version 2>/dev/null | head -n1)
+	log_info "AWS CLI successfully installed: $installed_version"
+
+	# Clean up temporary files
+	log_debug "cleaning up temporary files"
+	rm -rf "$temp_dir"
+	
+	log_info "AWS CLI installation complete!"
+	log_debug "exiting install_awscli - success"
+	return 0
+}
