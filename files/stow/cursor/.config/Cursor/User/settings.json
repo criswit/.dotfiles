@@ -9,6 +9,7 @@
     "workbench.editor.showTabs": "single",
     "editor.lineNumbers": "relative",
     "workbench.startupEditor": "none",
+    "files.hotExit": "off",
     "workbench.tips.enabled": false,
     "workbench.colorCustomizations": {
         "editorSuggestWidget.selectedBackground": "#231739",
@@ -93,9 +94,24 @@
     "terminal.integrated.defaultProfile.linux": "zsh",
     "window.restoreWindows": "none",
     "files.restoreOpenEditors": false,
+    // Ensures that nothing is restored from previous sessions when reopening a folder
+    "workbench.editor.restoreViewState": false,
+    "workbench.editor.restoreUndoStack": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.editor.enablePreview": false,
     "files.exclude": {
         "**/dist": true,
         "**/node_modules": true,
         "**/release": true
-    }
+    },
+    "workbench.localHistory.enabled": false,
+    "[go]": {
+
+      "editor.insertSpaces": false,
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+      }
+    },
+    "go.goroot": "/home/christopher/.local/share/mise/installs/go/1.25.0"
 }

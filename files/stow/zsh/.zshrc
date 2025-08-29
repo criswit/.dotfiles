@@ -107,5 +107,7 @@ if [[ -d "$HOME/.config/zsh/functions" ]]; then
   done
 fi
 
+export MISE_GO_SET_GOROOT=true
+
 # Load local configuration if it exists
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

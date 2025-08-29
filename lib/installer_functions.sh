@@ -1354,6 +1354,47 @@ update_cursor() {
 	return 0
 }
 
+install_goland() {
+	log_section "installing GoLand IDE"
+	log_debug "entering install_goland function"
+	
+	# Check if GoLand is already installed
+	if command -v goland >/dev/null 2>&1; then
+		log_info "GoLand is already installed at $(which goland)"
+		log_debug "exiting install_goland - already installed"
+		return 0
+	fi
+	
+	log_info "GoLand not found, preparing to install via PPA"
+	
+	# Ensure the JetBrains PPA is added
+	log_info "ensuring JetBrains PPA is configured"
+	add_ppa_repositories
+	
+	# Install GoLand package
+	log_info "installing GoLand IDE package"
+	if install_apt_package "goland"; then
+		log_info "GoLand successfully installed"
+		
+		# Verify installation
+		if command -v goland >/dev/null 2>&1; then
+			log_info "GoLand verified at: $(which goland)"
+			log_info "GoLand installation complete!"
+			log_info "you can launch GoLand from the applications menu or run: goland"
+		else
+			log_warning "GoLand installed but command not found in PATH"
+			log_info "GoLand should be available in your applications menu"
+		fi
+		
+		log_debug "exiting install_goland - success"
+		return 0
+	else
+		log_error "failed to install GoLand"
+		log_debug "exiting install_goland - failed"
+		return 1
+	fi
+}
+
 install_awscli() {
 	log_section "installing AWS CLI"
 	log_debug "entering install_awscli function"

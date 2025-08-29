@@ -7,7 +7,9 @@
     "Vitals@CoreCoding.com",
     "arcmenu@arcmenu.com"
   ],
-  "ppas": ["ppa:qbittorrent-team/qbittorrent-stable"],
+  "ppas": [
+    "ppa:qbittorrent-team/qbittorrent-stable"
+  ],
   "custom-apps": ["cursor"],
   "external-repos": {
     "protonvpn": {
@@ -26,6 +28,12 @@
         "jellyfin-server",
         "jellyfin-ffmpeg6"
       ]
+    },
+    "jetbrains": {
+      "gpg-key-url": "https://s3.eu-central-1.amazonaws.com/jetbrains-ppa/0xA6E8698A.pub.asc",
+      "repo-line": "deb [signed-by=/usr/share/keyrings/jetbrains-ppa-archive-keyring.gpg] http://jetbrains-ppa.s3-website.eu-central-1.amazonaws.com any main",
+      "keyring-path": "/usr/share/keyrings/jetbrains-ppa-archive-keyring.gpg",
+      "packages": ["goland"]
     }
   },
   "packages": {
@@ -54,7 +62,8 @@
       "httpie",
       "xtrlock",
       "gpaste-2",
-      "chromium-browser"
+      "chromium-browser",
+      "ffmpeg"
     ],
     "desktop": [
       "gnome-shell-extensions",
@@ -99,9 +108,9 @@
         "bind_address": "0.0.0.0",
         "hardware_accel": "auto",
         "media_dirs": [
-          "/home/christopher/Media/Movies",
-          "/home/christopher/Media/TV",
-          "/home/christopher/Media/Music"
+          "$HOME/Media/Movies",
+          "$HOME/Media/TV",
+          "$HOME/Media/Music"
         ]
       },
       "backup": {
@@ -120,7 +129,7 @@
     "test-filesystem": {
       "type": "typescript",
       "template": "filesystem",
-      "path": "/home/christopher/.mcp-servers/test-filesystem",
+      "path": "$HOME/.mcp-servers/test-filesystem",
       "enabled": true,
       "env": {}
     }
@@ -179,6 +188,7 @@
         "org.wezfurlong.wezterm.desktop",
         "code.desktop",
         "cursor.desktop",
+        "goland.desktop",
         "org.gnome.Nautilus.desktop",
         "spotify.desktop",
         "signal-desktop.desktop",

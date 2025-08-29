@@ -24,3 +24,10 @@ node_modules/
 # Task files
 # tasks.json
 # tasks/ 
+files/stow/aws/.aws/*
+.claude
+.cursor
+.env*
+.mcp*
+.taskmaster*
+CLAUDE.md
